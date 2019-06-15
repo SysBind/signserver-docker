@@ -32,12 +32,15 @@ ENV BITNAMI_APP_NAME="wildfly" \
     SIGNSERVER_NODEID=node1
 
 RUN apt update && apt install -y unzip ant
-RUN curl -ON https://netix.dl.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip && unzip signserver-ce-5.0.0.Final-bin.zip
-RUN cd signserver-ce-5.0.0.Final && ./bin/ant deploy
+RUN cd /opt/bitnami && curl -ON https://netix.dl.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip && unzip signserver-ce-5.0.0.Final-bin.zip
+RUN cd /opt/bitnami/signserver-ce-5.0.0.Final && ./bin/ant deploy
+RUN mkdir /opt/bitnami/nodb && mv -v /signserver_deploy.properties /opt/bitnami/signserver-ce-5.0.0.Final/conf/signserver_deploy.properties
+RUN chown -R 1001 /opt/bitnami/nodb /opt/bitnami/signserver-ce-5.0.0.Final
 
 EXPOSE 8080 9990
 
 USER 1001
+
 ENTRYPOINT [ "/app-entrypoint.sh" ]
 CMD [ "/run.sh" ]
 
