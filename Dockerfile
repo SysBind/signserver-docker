@@ -31,6 +31,7 @@ ENV BITNAMI_APP_NAME="wildfly" \
     APPSRV_HOME=/opt/bitnami/wildfly \
     SIGNSERVER_NODEID=node1
 
+RUN apt update && apt install -y unzip ant
 RUN curl -ON https://netix.dl.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip && unzip signserver-ce-5.0.0.Final-bin.zip
 RUN cd signserver-ce-5.0.0.Final && ./bin/ant deploy
 
